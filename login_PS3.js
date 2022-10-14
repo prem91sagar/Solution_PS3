@@ -73,36 +73,35 @@ app.get("/login", (req, res) => {
 // That form should allow the user with the correct role = editor to view the contacts
 // if it does not match a contact, send back the login form with an error message
 //
-// fucntion checkUser(name, password) {
-//   for (let i = 0; i < contacts.length; i++) {
-//     if (contacts[i].name == name && contacts[i].password == password){
-//       return ???? 
-//}
-//   }else{
-//     return 401
+fucntion checkUser(name, password) {
+  for (let i = 0; i < contacts.length; i++) {
+    if (contacts[i].name == name && contacts[i].password == password){
+      return contacts[i] 
+}
+   }
+    else
+    {
+//     return null
 //   }
-//} 
+  } 
 //
 app.post("/auth", (req, res) => {
   let { name, password } = req.body;
+  
+  let contact = checkUser(name,password);
   // check the user name and password
-  if(name == "name" && password == "password") 
-  {
-    if (role=="editor" )
-    {
+  if(contact != null && contact.role == "admin") {
       let form = `<form action="/contacts" method="get">
-  <label for="name">Get Contacts </label>
-  <input id="token" type="hidden" name="token" value="secret-token">
-  <input type="submit" value="OK">
-  </form>`;
-
-  res.send(form);
-
-    }
-    else
-    {
-    res.redirect(401, '/login');
-    }
+      <label for="name">Get Contacts </label>
+      <input id="token" type="hidden" name="token" value="secret-token">
+      <input type="submit" value="OK">
+      </form>`;
+    
+      res.send(form);
+  }
+  else {
+    res.redirect(401,'/login');
+  }
 
   // PS3 - This is where you need to make chnages
   // 1) Check that the name and password match a contact
@@ -111,9 +110,6 @@ app.post("/auth", (req, res) => {
   // check is not implemented here but we send back a token with value secret-token
   // we dynamically create a form with a hidden field that contains the token - secret-token (no need to change this)
   
-}
-else //if it doesnt match, give a prompt to return
-res.redirect(401, '/login');
 
 });
 
